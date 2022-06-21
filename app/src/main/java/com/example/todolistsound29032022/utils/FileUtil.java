@@ -14,8 +14,8 @@ import java.io.IOException;
 public class FileUtil {
     public static String saveToInternalStorage(Bitmap bitmapImage, Context context, String nameFile) {
         ContextWrapper cw = new ContextWrapper(context);
-        // path to /data/data/yourapp/app_data/assets
-        File directory = cw.getDir("assets", Context.MODE_PRIVATE);
+        // path to /data/data/yourapp/app_data/assets/images
+        File directory = cw.getDir("assets/images", Context.MODE_PRIVATE);
         // Create assets
         File myPath = new File(directory, nameFile + ".png");
 
