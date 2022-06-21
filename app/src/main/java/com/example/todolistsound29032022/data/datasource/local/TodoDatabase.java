@@ -1,6 +1,7 @@
 package com.example.todolistsound29032022.data.datasource.local;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -13,7 +14,7 @@ public abstract class TodoDatabase extends RoomDatabase {
     private static TodoDatabase instance;
     public abstract TodoDao todoDao();
 
-    public static TodoDatabase getInstance(Application context) {
+    public static TodoDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(
                     context,

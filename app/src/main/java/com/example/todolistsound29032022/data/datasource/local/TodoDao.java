@@ -13,5 +13,5 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface TodoDao {
 
     @Query("Select * from to_do")
-    Flowable<List<TodoEntity>> getListTodos();
+    Flowable<List<TodoEntity>> getTodoLists();
 }
