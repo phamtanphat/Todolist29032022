@@ -1,12 +1,9 @@
 package com.example.todolistsound29032022.data.datasource.local;
 
-import android.app.Application;
 import android.content.Context;
-
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
 import com.example.todolistsound29032022.data.datasource.local.entities.TodoEntity;
 
 @Database(entities = TodoEntity.class, version = 1)

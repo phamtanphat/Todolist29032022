@@ -1,18 +1,14 @@
 package com.example.todolistsound29032022.presentation.viewmodel;
 
 import android.content.Context;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.todolistsound29032022.data.datasource.local.entities.TodoEntity;
 import com.example.todolistsound29032022.data.model.Todo;
 import com.example.todolistsound29032022.data.repository.TodoRepository;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;

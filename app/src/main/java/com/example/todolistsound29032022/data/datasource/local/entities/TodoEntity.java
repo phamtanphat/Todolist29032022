@@ -29,7 +29,7 @@ public class TodoEntity {
     @ColumnInfo(name = "voice_path")
     public String voicePath;
 
-    @TypeConverters(PriorityColorEnum.class)
+    @TypeConverters(PriorityColorConverter.class)
     @ColumnInfo(name = "priority_color")
     public PriorityColorEnum priorityColor;
 
