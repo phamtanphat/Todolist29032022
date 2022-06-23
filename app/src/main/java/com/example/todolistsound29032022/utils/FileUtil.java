@@ -12,23 +12,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileUtil {
-    public static String saveToInternalStorage(Bitmap bitmapImage, Context context, String nameFile) {
-        ContextWrapper cw = new ContextWrapper(context);
+    public static String saveBitmapInternalStorage(Bitmap bitmapImage, Context context, String nameFile) {
+        ContextWrapper contextWrapper = new ContextWrapper(context);
         // path to /data/data/yourapp/app_data/assets/images
-        File directory = cw.getDir("assets/images", Context.MODE_PRIVATE);
+        File directory = contextWrapper.getDir("images", Context.MODE_PRIVATE);
         // Create assets
-        File myPath = new File(directory, nameFile + ".png");
+        File bitmapFile = new File(directory, nameFile + ".png");
 
-        FileOutputStream fos = null;
+        FileOutputStream fileOutputStream = null;
         try {
-            fos = new FileOutputStream(myPath);
+            fileOutputStream = new FileOutputStream(bitmapFile);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                fos.close();
+                fileOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -36,7 +36,7 @@ public class FileUtil {
         return directory.getAbsolutePath();
     }
 
-    public static Bitmap loadImageFromStorage(String path) {
+    public static Bitmap loadBitmapFromStorage(String path) {
         try {
             File file = new File(path);
             Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
@@ -45,5 +45,12 @@ public class FileUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static File createFileNameRecord(Context context) {
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        // path to /data/data/yourapp/app_data/assets/record
+        File directory = contextWrapper.getDir("record", Context.MODE_PRIVATE);
+        return  new File(directory, System.currentTimeMillis() + ".3gp");
     }
 }
