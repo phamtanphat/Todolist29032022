@@ -18,6 +18,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.todolistsound29032022.R;
+import com.example.todolistsound29032022.data.datasource.local.entities.TodoEntity;
+import com.example.todolistsound29032022.data.enums.PriorityColorEnum;
 import com.example.todolistsound29032022.data.model.Todo;
 import com.example.todolistsound29032022.presentation.viewmodel.MainViewModel;
 import com.example.todolistsound29032022.utils.FileUtil;
@@ -46,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
         btnPlayRecord = findViewById(R.id.button_play_record);
         tvNameRecord = findViewById(R.id.text_view_name_record_file);
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, requestCodeRecord);
-        } else {
-            isPermissionGranted = true;
-        }
-
         mainViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
             @NonNull
             @Override
@@ -70,12 +66,35 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getTodoLists().observe(this, new Observer<List<Todo>>() {
             @Override
             public void onChanged(List<Todo> todos) {
-                Log.d("BBB", todos.size() + "");
+                for (int i = 0; i < todos.size(); i++) {
+                    Log.d("BBB", todos.get(i).toString());
+                }
+            }
+        });
+
+        mainViewModel.getIdInsert().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long aLong) {
+                if (aLong > -1) {
+                    mainViewModel.queryTodoLists();
+                }
             }
         });
 
         mainViewModel.queryTodoLists();
+        mainViewModel.insertTodo(new TodoEntity(
+                                    "To do 1",
+                                    "Do something 1",
+                                    System.currentTimeMillis(),
+                                    System.currentTimeMillis() + 200000,
+                                    "image1.png",
+                                    "record1.3gp",
+                                    PriorityColorEnum.DEFAULT));
 
+
+    }
+
+    private void eventClick() {
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +140,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkPermissionRecord() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, requestCodeRecord);
+        } else {
+            isPermissionGranted = true;
+        }
     }
 
     private String getFileName(File file) {

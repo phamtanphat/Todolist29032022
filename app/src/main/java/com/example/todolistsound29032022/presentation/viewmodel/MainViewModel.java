@@ -19,6 +19,7 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<List<Todo>> todoLists = new MutableLiveData<>();
     private MutableLiveData<String> message = new MutableLiveData<>();
     private MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private MutableLiveData<Long> idInsert = new MutableLiveData<>();
     private TodoRepository repository;
 
     public MainViewModel(Context context) {
@@ -27,6 +28,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<List<Todo>> getTodoLists() {
         return todoLists;
+    }
+
+    public LiveData<Long> getIdInsert() {
+        return idInsert;
     }
 
     public LiveData<String> getMessage() {
@@ -81,6 +86,35 @@ public class MainViewModel extends ViewModel {
                         loading.setValue(false);
                     }
                 });
+    }
 
+    public void insertTodo(TodoEntity todoEntity) {
+        loading.setValue(true);
+        repository
+                .insertTodo(todoEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .toObservable()
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Long todos) {
+                        idInsert.setValue(todos);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        message.setValue(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        loading.setValue(false);
+                    }
+                });
     }
 }
